@@ -1,0 +1,144 @@
+-- ====================================================================
+-- PHASE 1: INDEPENDENT LOOKUP TABLES (Zero Dependencies)
+-- ====================================================================
+
+CREATE TABLE LK_UserRoles (
+    RoleID SERIAL PRIMARY KEY,
+    RoleName VARCHAR(50) NOT NULL UNIQUE,
+    Description TEXT
+);
+
+CREATE TABLE LK_PoliceJurisdictions (
+    StationCode VARCHAR(20) PRIMARY KEY,
+    DivisionName VARCHAR(100) NOT NULL,
+    OIC_Name VARCHAR(100)
+);
+
+CREATE TABLE LK_EvidenceClassification (
+    TypeCode VARCHAR(20) PRIMARY KEY,
+    StorageProtocol VARCHAR(100)
+);
+
+CREATE TABLE LK_ICD10_MortalCodes (
+    ICD10Code VARCHAR(10) PRIMARY KEY,
+    Description TEXT NOT NULL
+);
+
+-- ====================================================================
+-- PHASE 2: CORE PHYSICAL REGISTRIES (Independent Humans)
+-- ====================================================================
+
+CREATE TABLE Patient (
+    PatientID SERIAL PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    NIC VARCHAR(12) UNIQUE,
+    Age INT,
+    Gender VARCHAR(10),
+    IsDeceased BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE Doctor (
+    DoctorID SERIAL PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Specialization VARCHAR(100),
+    Email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE Staff (
+    StaffID SERIAL PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Role VARCHAR(50)
+);
+
+-- ====================================================================
+-- PHASE 3: MAIN OPERATIONAL AND CREDENTIAL ARCHITECTURE
+-- ====================================================================
+
+CREATE TABLE UserCredentials (
+    UserID SERIAL PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL, -- Stored securely encrypted
+    Salt VARCHAR(255) NOT NULL,
+    IsActive BOOLEAN DEFAULT TRUE,
+    StaffID INT REFERENCES Staff(StaffID),
+    DoctorID INT REFERENCES Doctor(DoctorID)
+);
+
+CREATE TABLE UserRoleAssignment (
+    AssignmentID SERIAL PRIMARY KEY,
+    UserID INT REFERENCES UserCredentials(UserID) ON DELETE CASCADE,
+    RoleID INT REFERENCES LK_UserRoles(RoleID) ON DELETE CASCADE
+);
+
+CREATE TABLE ForensicCase (
+    CaseID SERIAL PRIMARY KEY,
+    PoliceReferenceNo VARCHAR(50) NOT NULL UNIQUE,
+    IncidentDate DATE NOT NULL,
+    Status VARCHAR(20) DEFAULT 'Open',
+    PatientID INT REFERENCES Patient(PatientID),
+    StaffID INT REFERENCES Staff(StaffID)
+);
+
+-- ====================================================================
+-- PHASE 4: TRANSACTIONAL INVESTIGATION DETAILS (Dependent Children)
+-- ====================================================================
+
+CREATE TABLE ClinicalExamination (
+    ExaminationID SERIAL PRIMARY KEY,
+    Date DATE NOT NULL,
+    InjuryDetails TEXT,
+    DoctorNotes TEXT,
+    CaseID INT REFERENCES ForensicCase(CaseID) ON DELETE RESTRICT,
+    PatientID INT REFERENCES Patient(PatientID),
+    DoctorID INT REFERENCES Doctor(DoctorID)
+);
+
+CREATE TABLE InjuryMapping (
+    InjuryID SERIAL PRIMARY KEY,
+    ExaminationID INT REFERENCES ClinicalExamination(ExaminationID) ON DELETE CASCADE,
+    BodyRegion VARCHAR(50),
+    WoundType VARCHAR(50)
+);
+
+CREATE TABLE Postmortem (
+    PostmortemID SERIAL PRIMARY KEY,
+    Date DATE NOT NULL,
+    CauseOfDeath VARCHAR(100),
+    Findings TEXT,
+    CaseID INT REFERENCES ForensicCase(CaseID) ON DELETE RESTRICT,
+    PatientID INT REFERENCES Patient(PatientID),
+    DoctorID INT REFERENCES Doctor(DoctorID)
+);
+
+CREATE TABLE Evidence (
+    EvidenceID SERIAL PRIMARY KEY,
+    CollectionDate DATE NOT NULL,
+    LabName VARCHAR(100),
+    CaseID INT REFERENCES ForensicCase(CaseID) ON DELETE RESTRICT,
+    DoctorID INT REFERENCES Doctor(DoctorID)
+);
+
+CREATE TABLE EvidenceChainOfCustody (
+    TransferID SERIAL PRIMARY KEY,
+    EvidenceID INT REFERENCES Evidence(EvidenceID) ON DELETE CASCADE,
+    ReleasedBy_UserID INT REFERENCES UserCredentials(UserID),
+    ReceivedBy_UserID INT REFERENCES UserCredentials(UserID),
+    TransferTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE LegalReport (
+    ReportID SERIAL PRIMARY KEY,
+    Type VARCHAR(50) NOT NULL,
+    IssueDate DATE NOT NULL,
+    Status VARCHAR(20) DEFAULT 'Pending',
+    CaseID INT REFERENCES ForensicCase(CaseID),
+    StaffID INT REFERENCES Staff(StaffID)
+);
+
+CREATE TABLE SystemAuditTrail (
+    LogID SERIAL PRIMARY KEY,
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UserID INT REFERENCES UserCredentials(UserID),
+    ActionType VARCHAR(20),
+    TargetTable VARCHAR(50)
+);
