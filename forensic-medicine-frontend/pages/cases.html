@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Case Management | Forensic Medicine Database</title><link rel="stylesheet" href="../css/styles.css"><link rel="stylesheet" href="../css/print.css"></head>
+<body data-root=".." data-page="cases" data-title="Case Management" data-section="Case Registry">
+
+<section class="page-heading"><div><p class="eyebrow">Case domain</p><h2>Case management</h2><p>Create, link, and track medico-legal cases.</p></div><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#caseModal">New case</button></section>
+<div class="filter-bar"><div class="filter-field search-control"><label>Search case</label><input id="caseSearch" class="form-control" placeholder="Case ID, patient, police reference"></div><div class="filter-field"><label>Case type</label><select id="caseTypeFilter" class="form-select"><option value="">All types</option><option>Road Traffic Accident</option><option>Clinical Assault</option><option>Domestic Abuse</option><option>Postmortem</option></select></div><div class="filter-field"><label>Status</label><select id="caseStatusFilter" class="form-select"><option value="">All statuses</option><option>MLEF Pending</option><option>Under Examination</option><option>PM Report Pending</option><option>Completed</option></select></div></div>
+<section class="official-card"><div class="card-header card-title-row"><h3>Medico-legal case registry</h3><span class="text-muted small"><span id="caseCount">0</span> cases</span></div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Case</th><th>Patient</th><th>Type</th><th>Incident</th><th>Police reference</th><th>Assigned doctor</th><th>Status</th><th></th></tr></thead><tbody id="casesTableBody"></tbody></table></div></section>
+<div class="modal fade" id="caseModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content official-modal">
+<div class="modal-header"><div><p class="eyebrow mb-1">Case file creation</p><h2 class="modal-title fs-5">Create medico-legal case</h2></div><button class="btn-close" data-bs-dismiss="modal"></button></div>
+<form id="caseForm" class="needs-validation" novalidate><div class="modal-body"><div class="row g-3">
+<div class="col-12"><label class="form-label">Patient / deceased person</label><select id="casePatient" name="PatientID" class="form-select" required><option value="">Select registered person</option></select></div>
+<div class="col-md-6"><label class="form-label">Case type</label><select id="caseType" name="CaseType" class="form-select" required><option value="">Select type</option><option>Road Traffic Accident</option><option>Clinical Assault</option><option>Domestic Abuse</option><option>Sexual Assault</option><option>Child Abuse</option><option>Detainee Examination</option><option>Age Estimation</option><option>Postmortem</option></select></div>
+<div class="col-md-6"><label class="form-label">Incident / death date</label><input name="IncidentDate" type="date" class="form-control" required data-not-future></div>
+<div class="col-12"><label class="form-label">Place of incident / death</label><input name="Place" class="form-control" maxlength="150" required></div>
+<div class="col-md-6"><label class="form-label">Police reference number</label><input name="PoliceReferenceNo" class="form-control" maxlength="30" required></div>
+<div class="col-md-6"><label class="form-label">Assign doctor / JMO</label><select name="AssignedDoctor" class="form-select" required><option>Dr. Nadeesha Perera</option><option>Dr. Kavinda Jayasinghe</option></select></div>
+<div class="col-md-6"><label class="form-label">Initial status</label><select name="Status" class="form-select"><option>Registered</option><option>MLEF Pending</option><option>Awaiting Court Order</option><option>Under Examination</option></select></div>
+<div class="col-md-6"><label class="form-label">Legal authorisation</label><select class="form-select"><option>MLEF</option><option>Request Letter</option><option>Inquest Order</option><option>Court Order</option></select></div>
+</div></div><div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="submit">New case file</button></div></form>
+</div></div></div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="caseDrawer" style="width:min(650px,100vw)"><div class="offcanvas-header border-bottom"><div><p class="eyebrow mb-1">Case file</p><h2 class="offcanvas-title fs-5" id="caseDrawerTitle"></h2></div><button class="btn-close" data-bs-dismiss="offcanvas"></button></div><div class="offcanvas-body" id="caseDrawerBody"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script><script src="../components/qr-modal.js"></script>
+<script src="../js/config.js"></script><script src="../js/mock-data.js"></script><script src="../js/api.js"></script><script src="../js/forms.js"></script><script src="../components/ui.js"></script><script src="../components/app-shell.js"></script>
+<script src="../js/cases.js"></script>
+</body></html>

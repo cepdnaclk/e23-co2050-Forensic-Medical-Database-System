@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Reports & Statistics | Forensic Medicine Database</title><link rel="stylesheet" href="../css/styles.css"><link rel="stylesheet" href="../css/print.css"></head>
+<body data-root=".." data-page="reports" data-title="Reports & Statistics" data-section="Management Reporting">
+
+<section class="page-heading"><div><p class="eyebrow">Reporting & statistics</p><h2>Department reports</h2><p>Daily, monthly, and pending-case summaries.</p></div><div class="d-flex gap-2"><button class="btn btn-outline-secondary" id="printCurrentReport">Print</button><button class="btn btn-outline-primary" id="pdfPlaceholder">PDF</button><button class="btn btn-primary" id="exportCurrentReport">Export CSV</button></div></section>
+<div class="filter-bar"><div class="filter-field"><label>From date</label><input id="reportFrom" type="date" class="form-control" value="2026-06-01"></div><div class="filter-field"><label>To date</label><input id="reportTo" type="date" class="form-control" value="2026-07-19"></div><div class="filter-field"><label>Case type</label><select id="reportTypeFilter" class="form-select"><option value="">All case types</option><option>Road Traffic Accident</option><option>Clinical Assault</option><option>Domestic Abuse</option><option>Postmortem</option></select></div><div class="filter-field"><label>Status</label><select id="reportStatusFilter" class="form-select"><option value="">All statuses</option><option>MLEF Pending</option><option>Under Examination</option><option>PM Report Pending</option><option>Completed</option></select></div><button class="btn btn-primary" id="applyReportFilters">Generate</button></div>
+<div class="row g-3 mb-3"><div class="col-6 col-xl-3"><div class="stat-pill"><span>Total cases</span><strong id="reportTotal">0</strong></div></div><div class="col-6 col-xl-3"><div class="stat-pill"><span>Clinical</span><strong id="reportClinical">0</strong></div></div><div class="col-6 col-xl-3"><div class="stat-pill"><span>Postmortem</span><strong id="reportPm">0</strong></div></div><div class="col-6 col-xl-3"><div class="stat-pill"><span>Pending</span><strong id="reportPending">0</strong></div></div></div>
+<ul class="nav nav-pills mb-3"><li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#dailyReport">Daily case report</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#monthlyReport">Monthly statistics</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#pendingReport">Pending cases</button></li></ul>
+<div class="tab-content">
+<div class="tab-pane fade show active" id="dailyReport"><section class="official-card"><div class="card-header card-title-row"><h3>Daily case report</h3><span class="text-muted small" id="dailyReportCaption"></span></div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Case</th><th>Date</th><th>Patient</th><th>Type</th><th>Police reference</th><th>Doctor</th><th>Status</th></tr></thead><tbody id="dailyReportBody"></tbody></table></div></section></div>
+<div class="tab-pane fade" id="monthlyReport"><section class="official-card"><div class="card-header card-title-row"><h3>Monthly statistics</h3><span class="text-muted small">Demo aggregation</span></div><div class="card-body"><canvas id="monthlyReportChart" height="100"></canvas></div></section></div>
+<div class="tab-pane fade" id="pendingReport"><section class="official-card"><div class="card-header card-title-row"><h3>Pending-case report</h3><span class="text-muted small">Action queue</span></div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Case</th><th>Patient</th><th>Pending item</th><th>Days open</th><th>Officer</th><th>Priority</th></tr></thead><tbody id="pendingReportBody"></tbody></table></div></section></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="../js/config.js"></script><script src="../js/mock-data.js"></script><script src="../js/api.js"></script><script src="../js/forms.js"></script><script src="../components/ui.js"></script><script src="../components/app-shell.js"></script>
+<script src="../js/reports.js"></script>
+</body></html>

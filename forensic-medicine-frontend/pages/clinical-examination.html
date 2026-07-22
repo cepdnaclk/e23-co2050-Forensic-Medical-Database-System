@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Clinical Examination | Forensic Medicine Database</title><link rel="stylesheet" href="../css/styles.css"><link rel="stylesheet" href="../css/print.css"></head>
+<body data-root=".." data-page="clinical" data-title="Clinical Examination" data-section="Clinical Forensic Records">
+
+<section class="page-heading"><div><p class="eyebrow">Clinical forensic component</p><h2>Digital MLEF examination</h2><p>Record MLEF findings and injury details.</p></div><button class="btn btn-outline-primary" id="saveClinicalDraft">Save draft</button></section>
+<div class="alert-strip"><div><strong>Legal authorisation required:</strong> <span>Confirm the MLEF, request letter, or court order before beginning the examination.</span></div></div>
+<form id="clinicalForm" class="needs-validation" novalidate><div class="row g-3">
+<div class="col-12 col-xl-4"><section class="official-card"><div class="card-header card-title-row"><h3>Examination details</h3><span class="case-seal status-warning">Draft</span></div><div class="card-body">
+<div class="mb-3"><label class="form-label">Case</label><select id="clinicalCase" name="CaseID" class="form-select" required><option value="">Select clinical case</option></select></div>
+<div class="mb-3"><label class="form-label">Examination date</label><input name="Date" type="date" class="form-control" required data-not-future value="2026-07-19"></div>
+<div class="mb-3"><label class="form-label">Referral type</label><select name="ReferralType" class="form-select" required><option value="">Select referral</option><option>Hospital Police / MLEF</option><option>Police Station / MLEF</option><option>Attorney General Request</option><option>Human Rights Commission</option><option>Court Order</option></select></div>
+<div class="mb-3"><label class="form-label">Examining doctor</label><select name="DoctorID" class="form-select"><option value="12">Dr. Nadeesha Perera</option><option value="17">Dr. Kavinda Jayasinghe</option></select></div>
+<div class="mb-3"><label class="form-label">Doctor notes</label><textarea name="DoctorNotes" class="form-control" rows="6" required placeholder="Record objective clinical notes..."></textarea></div>
+<div class="mb-3"><label class="form-label">Investigations / referrals</label><div class="row g-2"><div class="col-6 form-check"><input class="form-check-input" type="checkbox" id="xray"><label class="form-check-label" for="xray">X-ray / CT</label></div><div class="col-6 form-check"><input class="form-check-input" type="checkbox" id="tox"><label class="form-check-label" for="tox">Toxicology</label></div><div class="col-6 form-check"><input class="form-check-input" type="checkbox" id="swab"><label class="form-check-label" for="swab">Swabs</label></div><div class="col-6 form-check"><input class="form-check-input" type="checkbox" id="ref"><label class="form-check-label" for="ref">Specialist referral</label></div></div></div>
+<button class="btn btn-primary w-100" type="submit">Save clinical examination</button></div></section></div>
+<div class="col-12 col-xl-8"><section class="official-card"><div class="card-header card-title-row"><div><h3>Injury detail selector</h3><span class="text-muted small">Select a body region, then add a structured record.</span></div><span id="selectedBodyPartBadge" class="case-seal status-neutral">None selected</span></div><div class="card-body"><div class="body-selector">
+<div class="body-map"><svg viewBox="0 0 220 500" aria-label="Simple body diagram selector">
+<circle class="body-region" data-part="Head" cx="110" cy="42" r="28"/><path class="body-region" data-part="Neck" d="M96 70h28v24H96z"/><path class="body-region" data-part="Chest" d="M75 92 Q110 75 145 92 L138 190 Q110 205 82 190z"/><path class="body-region" data-part="Abdomen" d="M82 190 Q110 205 138 190 L145 264 Q110 278 75 264z"/><path class="body-region" data-part="Left Arm" d="M74 95 L45 112 L28 240 L48 246 L67 140z"/><path class="body-region" data-part="Right Arm" d="M146 95 L175 112 L192 240 L172 246 L153 140z"/><path class="body-region" data-part="Left Hand" d="M26 240 Q37 234 49 245 L44 282 Q32 292 20 278z"/><path class="body-region" data-part="Right Hand" d="M194 240 Q183 234 171 245 L176 282 Q188 292 200 278z"/><path class="body-region" data-part="Left Leg" d="M76 263 L107 272 L100 420 L65 420z"/><path class="body-region" data-part="Right Leg" d="M144 263 L113 272 L120 420 L155 420z"/><path class="body-region" data-part="Left Foot" d="M65 420 L100 420 L102 468 L54 468 Q48 448 65 420z"/><path class="body-region" data-part="Right Foot" d="M155 420 L120 420 L118 468 L166 468 Q172 448 155 420z"/></svg><p class="body-map-legend">Front body view</p></div>
+<div><div class="row g-3"><div class="col-md-6"><label class="form-label">Injury type</label><select id="injuryType" class="form-select"><option>Abrasion</option><option>Contusion</option><option>Laceration</option><option>Incised injury</option><option>Fracture suspected</option><option>Other</option></select></div><div class="col-md-6"><label class="form-label">Severity</label><select id="injurySeverity" class="form-select"><option>Minor</option><option>Moderate</option><option>Severe</option><option>Pending investigation</option></select></div><div class="col-12"><label class="form-label">Description</label><textarea id="injuryDescription" class="form-control" rows="3" placeholder="Location, dimensions, appearance, and objective observations."></textarea></div><div class="col-12"><button class="btn btn-outline-primary" type="button" id="addInjury">Add injury detail</button></div></div>
+<hr class="my-4"><h4 class="section-heading">Recorded injury details</h4><div class="table-responsive border rounded"><table class="table table-sm"><thead><tr><th>Body part</th><th>Type</th><th>Severity</th><th>Description</th><th></th></tr></thead><tbody id="injuryTable"></tbody></table></div></div>
+</div></div></section></div></div></form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/config.js"></script><script src="../js/mock-data.js"></script><script src="../js/api.js"></script><script src="../js/forms.js"></script><script src="../components/ui.js"></script><script src="../components/app-shell.js"></script>
+<script src="../js/clinical.js"></script>
+</body></html>

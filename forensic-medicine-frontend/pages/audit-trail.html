@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Audit Trail | Forensic Medicine Database</title><link rel="stylesheet" href="../css/styles.css"><link rel="stylesheet" href="../css/print.css"></head>
+<body data-root=".." data-page="audit" data-title="Audit Trail" data-section="Security Monitoring">
+
+<section class="page-heading"><div><p class="eyebrow">Admin-only security screen</p><h2>Audit trail</h2><p>Track sensitive actions and unusual access.</p></div><button class="btn btn-outline-secondary" id="exportAudit">Export audit CSV</button></section>
+<div class="row g-3 mb-3"><div class="col-md-4"><article class="metric-card"><span class="metric-icon">AL</span><p>Actions today</p><strong id="auditToday">0</strong><div class="metric-meta">Across all accounts</div></article></div><div class="col-md-4"><article class="metric-card danger"><span class="metric-icon">SF</span><p>Suspicious flags</p><strong id="auditSuspicious">0</strong><div class="metric-meta">Failed logins / after-hours</div></article></div><div class="col-md-4"><article class="metric-card warning"><span class="metric-icon">RC</span><p>Role changes</p><strong id="auditRoles">0</strong><div class="metric-meta">Require review</div></article></div></div>
+<div class="filter-bar"><div class="filter-field search-control"><label>Search audit log</label><input id="auditSearch" class="form-control" placeholder="User, IP, record ID"></div><div class="filter-field"><label>User</label><select id="auditUser" class="form-select"><option value="">All users</option></select></div><div class="filter-field"><label>Action</label><select id="auditAction" class="form-select"><option value="">All actions</option></select></div><div class="filter-field"><label>Table</label><select id="auditTable" class="form-select"><option value="">All tables</option></select></div><div class="filter-field"><label>From</label><input id="auditFrom" type="date" class="form-control" value="2026-07-18"></div><div class="filter-field"><label>To</label><input id="auditTo" type="date" class="form-control" value="2026-07-19"></div></div>
+<section class="official-card"><div class="card-header card-title-row"><h3>Security event log</h3><span class="text-muted small"><span id="auditCount">0</span> matching events</span></div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Table</th><th>Record</th><th>IP address</th><th>Risk flag</th><th></th></tr></thead><tbody id="auditTableBody"></tbody></table></div></section>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="auditDrawer" style="width:min(760px,100vw)"><div class="offcanvas-header border-bottom"><div><p class="eyebrow mb-1">Audit event detail</p><h2 class="offcanvas-title fs-5" id="auditDrawerTitle"></h2></div><button class="btn-close" data-bs-dismiss="offcanvas"></button></div><div class="offcanvas-body" id="auditDrawerBody"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/config.js"></script><script src="../js/mock-data.js"></script><script src="../js/api.js"></script><script src="../js/forms.js"></script><script src="../components/ui.js"></script><script src="../components/app-shell.js"></script>
+<script src="../js/audit.js"></script>
+</body></html>

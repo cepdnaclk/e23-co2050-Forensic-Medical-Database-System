@@ -1,0 +1,4 @@
+@media print{
+  body{background:#fff!important}.sidebar,.topbar,.page-heading,.filter-bar,.btn,.modal-header,.modal-footer,.alert-strip{display:none!important}.main-panel{margin:0!important}.content-area{padding:0!important}.official-card{border:0!important;box-shadow:none!important}.report-paper{border:0!important;box-shadow:none!important;padding:15mm!important}.qr-frame{border-color:#000!important}
+  body *{visibility:hidden}.report-paper,.report-paper *,#qrModal.show,#qrModal.show *{visibility:visible}.report-paper,#qrModal.show{position:absolute;left:0;top:0;width:100%}
+}

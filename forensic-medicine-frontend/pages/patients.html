@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<title>Patient Management | Forensic Medicine Database</title><link rel="stylesheet" href="../css/styles.css"><link rel="stylesheet" href="../css/print.css"></head>
+<body data-root=".." data-page="patients" data-title="Patient Management" data-section="Clinical Records">
+
+<section class="page-heading"><div><p class="eyebrow">Patient domain</p><h2>Patient management</h2><p>Register identities, next-of-kin, and case history.</p></div><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#patientModal">New patient</button></section>
+<div class="filter-bar"><div class="filter-field search-control"><label for="patientSearch">Search patient</label><input id="patientSearch" class="form-control" placeholder="Name, NIC, BHT or patient ID"></div><div class="filter-field"><label for="patientStatusFilter">Record type</label><select id="patientStatusFilter" class="form-select"><option value="">All records</option><option value="living">Living patient</option><option value="deceased">Deceased person</option></select></div><button class="btn btn-outline-secondary" id="clearPatientFilters">Clear</button></div>
+<section class="official-card"><div class="card-header card-title-row"><h3>Patient registry</h3><span class="text-muted small"><span id="patientCount">0</span> records</span></div><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Patient ID</th><th>Name</th><th>NIC / Passport</th><th>BHT No.</th><th>Age / Sex</th><th>Contact</th><th>Record type</th><th></th></tr></thead><tbody id="patientsTableBody"></tbody></table></div></section>
+<div class="modal fade" id="patientModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content official-modal">
+<div class="modal-header"><div><p class="eyebrow mb-1">New registry entry</p><h2 class="modal-title fs-5">New patient / deceased person</h2></div><button class="btn-close" data-bs-dismiss="modal"></button></div>
+<form id="patientForm" class="needs-validation" novalidate><div class="modal-body">
+<h3 class="section-heading">Personal identification</h3><div class="row g-3">
+<div class="col-md-6"><label class="form-label">Full name</label><input name="Name" class="form-control" required></div>
+<div class="col-md-3"><label class="form-label">NIC / Passport</label><input name="NIC" class="form-control" data-validate="nic"></div>
+<div class="col-md-3"><label class="form-label">BHT number</label><input name="BHTNumber" class="form-control" maxlength="20"></div>
+<div class="col-md-2"><label class="form-label">Age</label><input name="Age" type="number" min="0" max="130" class="form-control" required></div>
+<div class="col-md-3"><label class="form-label">Gender</label><select name="Gender" class="form-select" required><option value="">Select</option><option value="F">Female</option><option value="M">Male</option><option value="O">Other / not recorded</option></select></div>
+<div class="col-md-3"><label class="form-label">Phone number</label><input name="PhoneNumber" class="form-control" pattern="(?:\+94|0)?\d{9}"></div>
+<div class="col-md-4 d-flex align-items-end"><div class="form-check form-switch mb-2"><input id="isDeceased" name="IsDeceased" class="form-check-input" type="checkbox"><label class="form-check-label fw-semibold" for="isDeceased">Register as deceased person</label></div></div>
+<div class="col-12"><label class="form-label">Address / place found</label><textarea name="Address" class="form-control" rows="2" required></textarea></div></div>
+<hr class="my-4"><h3 class="section-heading">Next-of-kin</h3><div class="row g-3">
+<div class="col-md-4"><label class="form-label">Name</label><input name="NOKName" class="form-control"></div><div class="col-md-3"><label class="form-label">Relationship</label><input name="NOKRelationship" class="form-control"></div><div class="col-md-2"><label class="form-label">Phone</label><input name="NOKPhone" class="form-control"></div><div class="col-md-3"><label class="form-label">Address</label><input name="NOKAddress" class="form-control"></div></div>
+</div><div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="submit">Save patient record</button></div></form>
+</div></div></div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="patientDrawer" style="width:min(620px,100vw)"><div class="offcanvas-header border-bottom"><div><p class="eyebrow mb-1">Patient file</p><h2 class="offcanvas-title fs-5" id="patientDrawerTitle">Patient details</h2></div><button class="btn-close" data-bs-dismiss="offcanvas"></button></div><div class="offcanvas-body" id="patientDrawerBody"></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/config.js"></script><script src="../js/mock-data.js"></script><script src="../js/api.js"></script><script src="../js/forms.js"></script><script src="../components/ui.js"></script><script src="../components/app-shell.js"></script>
+<script src="../js/patients.js"></script>
+</body></html>
