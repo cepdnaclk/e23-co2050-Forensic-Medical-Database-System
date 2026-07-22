@@ -1,0 +1,113 @@
+FMDS BACKUP AND RECOVERY GUIDE
+Database name: forensic_db
+Schema name: fmds
+
+1. CREATE A PLAIN SQL BACKUP
+--------------------------------
+PowerShell:
+
+& "C:\Program Files\PostgreSQL\18\bin\pg_dump.exe" `
+  -U postgres `
+  -d forensic_db `
+  -F p `
+  --clean `
+  --if-exists `
+  --no-owner `
+  --no-privileges `
+  -f "forensic_db_full.sql"
+
+This file can be committed to GitHub because it is readable SQL.
+Do not commit real patient data, passwords, or secret configuration.
+
+2. CREATE A CUSTOM-FORMAT BACKUP
+--------------------------------
+& "C:\Program Files\PostgreSQL\18\bin\pg_dump.exe" `
+  -U postgres `
+  -d forensic_db `
+  -F c `
+  --no-owner `
+  --no-privileges `
+  -f "forensic_db_full.backup"
+
+Custom backups are restored with pg_restore.
+
+3. RESTORE A PLAIN SQL BACKUP
+--------------------------------
+Create an empty database first:
+
+& "C:\Program Files\PostgreSQL\18\bin\createdb.exe" `
+  -U postgres `
+  forensic_db_restore_test
+
+Restore:
+
+& "C:\Program Files\PostgreSQL\18\bin\psql.exe" `
+  -U postgres `
+  -d forensic_db_restore_test `
+  -f "forensic_db_full.sql"
+
+4. RESTORE A CUSTOM BACKUP
+--------------------------------
+& "C:\Program Files\PostgreSQL\18\bin\pg_restore.exe" `
+  -U postgres `
+  -d forensic_db_restore_test `
+  --clean `
+  --if-exists `
+  --no-owner `
+  "forensic_db_full.backup"
+
+5. VERIFY THE RESTORED DATABASE
+--------------------------------
+Run:
+
+SET search_path TO fmds, public;
+
+SELECT COUNT(*) AS total_tables
+FROM information_schema.tables
+WHERE table_schema='fmds'
+  AND table_type='BASE TABLE';
+
+Expected table count: 25
+
+Also run:
+
+SELECT COUNT(*) FROM patient;
+SELECT COUNT(*) FROM forensic_case;
+SELECT COUNT(*) FROM evidence;
+SELECT COUNT(*) FROM legal_report;
+
+6. PGADMIN BACKUP
+--------------------------------
+Right-click forensic_db
+→ Backup
+→ Choose Plain for a .sql file
+→ Choose Custom for a .backup file
+→ Select Pre-data, Data and Post-data
+→ Backup
+
+7. TEAM SHARING THROUGH GITHUB
+--------------------------------
+Recommended folder:
+
+database/
+  01_fmds_create_25_tables.sql
+  02_fmds_constraints_indexes.sql
+  03_fmds_unique_sample_data.sql
+  04_fmds_verification_queries.sql
+  05_fmds_views.sql
+  06_fmds_functions_procedures.sql
+  07_fmds_triggers_audit.sql
+  08_fmds_roles_permissions.sql
+  09_fmds_backup_recovery.txt
+
+Teammates should run SQL files 01 to 08 in numerical order.
+File 09 explains backup and restoration.
+
+8. IMPORTANT SECURITY NOTES
+--------------------------------
+- Never upload real forensic records.
+- Never upload PostgreSQL passwords.
+- Never upload .env files.
+- Use fictional sample data only.
+- Encrypt production backups.
+- Test restoration regularly.
